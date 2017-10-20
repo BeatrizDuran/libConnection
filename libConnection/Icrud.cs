@@ -8,7 +8,7 @@ namespace libConnection
 {
     public interface Icrud
     {
-        bool insertar(string tabla, string campos, string datos);
+        bool insertar(string query);
         bool eliminar(string tabla, string condicion);
         bool modificar(string tabla, string campos, string condicion);
         bool consultar(string tabla);

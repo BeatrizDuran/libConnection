@@ -11,7 +11,7 @@ namespace libConnection
     public class ConnectionPostgres:Icrud
     {
         public string CONECTION = "Server=127.0.0.1; Port=5432; User id=postgres; Password=siqueirosuth19; Database= SVC";
-        public NpgsqlConnection con;
+        public NpgsqlConnection con1;
         public NpgsqlCommandBuilder cmb;
         public DataSet Ds = new DataSet();
         public NpgsqlDataAdapter Da;
@@ -22,7 +22,7 @@ namespace libConnection
 
         public void Conexion()//INICIA LA CONEXION
         {
-            con = new NpgsqlConnection(CONECTION);
+            con1 = new NpgsqlConnection(CONECTION);
         }
         public ConnectionPostgres()
         {
@@ -41,12 +41,12 @@ namespace libConnection
         {
             try
             {
-                con.Open();
                 string query = " DELETE FROM " + tablas + " WHERE " + condicion;
-                comd = new NpgsqlCommand(query, con);
+                comd = new NpgsqlCommand(query, con1);
+                con1.Open();
                 int i = comd.ExecuteNonQuery();
                 cumple = true;
-                con.Close();
+                con1.Close();
                 if (i > 0)
                 {
                     return true;
@@ -71,12 +71,12 @@ namespace libConnection
         {
             try
             {
-                con.Open();
                 string query = "UPDATE " + tablas + " SET " + campos + " WHERE " + condicion;
-                comd = new NpgsqlCommand(query, con);
+                comd = new NpgsqlCommand(query, con1);
+                con1.Open();
                 int j = comd.ExecuteNonQuery();
                 cumple = true;
-                con.Close();
+                con1.Close();
                 if (j > 0)
                 {
                     return true;
@@ -98,30 +98,20 @@ namespace libConnection
         /// <param name="campos">campos los cuales se desean agregar</param>
         /// <param name="datos">datos lo cuales quieres agregar</param>
         /// <returns></returns>
-        public bool insertar(string tabla, string campos, string datos)
+        public bool insertar(string query)
         {
-            try
+            con1.Open();
+            comd = new NpgsqlCommand(query, con1);
+            int k = comd.ExecuteNonQuery();
+            con1.Close();
+            if (k > 0)
             {
-                con.Open();
-                string q = "INSERT INTO " + tabla + "(" + campos + ") VALUES (" + datos + ")";
-                comd = new NpgsqlCommand(q, con);
-                int k = comd.ExecuteNonQuery();
-                cumple = true;
-                if (k > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
-            catch (NpgsqlException error)
+            else
             {
-                Validar = error.Message;
+                return false;
             }
-            return cumple;
-            con.Close();
         }
         /// <summary>
         /// realiza la consulta de la tabla
@@ -132,15 +122,15 @@ namespace libConnection
         {
             try
             {
-                con.Open();
                 Ds.Tables.Clear();
                 string q = "SELECT * FROM " + tabla;
-                Da = new NpgsqlDataAdapter(q, con);
+                Da = new NpgsqlDataAdapter(q, con1);
                 cmb = new NpgsqlCommandBuilder(Da);
+                con1.Open();
                 Dr = comd.ExecuteReader();
                 comd.ExecuteNonQuery();
+                con1.Close();
                 cumple = true;
-                con.Close();
             }catch(NpgsqlException error)
             {
                 Validar = error.Message;

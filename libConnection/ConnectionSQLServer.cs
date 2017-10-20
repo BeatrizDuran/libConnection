@@ -114,12 +114,12 @@ namespace libConnection
         /// <param name="campos">campos los cuales se desean agregar</param>
         /// <param name="datos">datos lo cuales quieres agregar</param>
         /// <returns></returns>
-        public bool insertar(string tabla, string campos, string datos)
+        public bool insertar(string query)
         {
             try
             {
-                string q = "INSERT INTO " + tabla + "(" + campos + ") VALUES (" + datos + ")";
-                comd = new SqlCommand(q, con);
+                //string q = "INSERT INTO " + tabla + "(" + campos + ") VALUES (" + datos + ");";
+                comd = new SqlCommand(query, con);
                 con.Open();
                 int k = comd.ExecuteNonQuery();
                 con.Close();

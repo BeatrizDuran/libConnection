@@ -22,6 +22,7 @@ namespace libConnection
         public bool cumple = false;
         public string Validar;
 
+
         public void Conexion()//INICIA LA CONEXION
         {
             con = new SqlConnection(CONECTION);

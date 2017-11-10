@@ -131,6 +131,7 @@ namespace libConnection
         {
             try
             {
+                
                 //string q = "INSERT INTO " + tabla + "(" + campos + ") VALUES (" + datos + ")";
                 comd = new MySqlCommand(query, con);
                 con.Open();

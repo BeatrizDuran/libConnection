@@ -20,6 +20,7 @@ namespace libConnection
         public string Validar;
         public bool cumple = false;
 
+
         public void Conexion()//INICIA LA CONEXION
         {
             con1 = new NpgsqlConnection(CONECTION);

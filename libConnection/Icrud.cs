@@ -12,5 +12,6 @@ namespace libConnection
         bool eliminar(string tabla, string condicion);
         bool modificar(string tabla, string campos, string condicion);
         bool consultar(string tabla);
+
     }
 }
